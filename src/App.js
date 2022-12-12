@@ -1,10 +1,28 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Explore from './pages/Explore';
+import Profile from './pages/Profile';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import ForgetPassword from './pages/ForgetPassword';
+import Offers from './pages/Offers';
 import './App.css';
 
 function App() {
   return (
-    <div className='App'>
-      <h1>hello</h1>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Explore />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/offers' element={<Offers />} />
+          <Route path='/forgetpassword' element={<ForgetPassword />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
