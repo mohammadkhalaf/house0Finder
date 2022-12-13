@@ -6,6 +6,8 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ForgetPassword from './pages/ForgetPassword';
 import Offers from './pages/Offers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
           <Route path='/forgetpassword' element={<ForgetPassword />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </>
   );
 }

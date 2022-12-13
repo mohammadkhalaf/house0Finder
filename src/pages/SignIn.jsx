@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
+import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { MdVisibility } from 'react-icons/md';
@@ -9,6 +12,7 @@ const SignIn = () => {
     userEmail: '',
     userPassword: '',
   });
+  const navigate = useNavigate();
   const { userEmail, userPassword } = signinForm;
   const onchangeHandler = (e) => {
     setSigninForm((prev) => ({
@@ -18,6 +22,21 @@ const SignIn = () => {
   };
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const userCred = await signInWithEmailAndPassword(
+        auth,
+        userEmail,
+        userPassword,
+      );
+      if (userCred.user) {
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error('Bad user credentials');
+    }
   };
   return (
     <div>
@@ -39,7 +58,7 @@ const SignIn = () => {
         />
         <MdVisibility onClick={showPasswordHandler} />
         <Link to='/forgetpassword'>Forget password?</Link>
-        <button>
+        <button onClick={submitHandler}>
           Sign in <AiOutlineArrowRight />
         </button>
       </form>

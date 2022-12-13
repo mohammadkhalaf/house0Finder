@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, db } from '../firebase';
+import { toast } from 'react-toastify';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { MdVisibility } from 'react-icons/md';
 
@@ -10,6 +14,7 @@ const SignUp = () => {
     userPassword: '',
     userName: '',
   });
+  const navigate = useNavigate();
   const { userEmail, userPassword, userName } = signupForm;
   const onchangeHandler = (e) => {
     setSignupForm((prev) => ({
@@ -19,6 +24,27 @@ const SignUp = () => {
   };
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        userEmail,
+        userPassword,
+      );
+      const user = userCred.user;
+      updateProfile(auth.currentUser, {
+        displayName: userName,
+      });
+      const copyData = { ...signupForm };
+      delete copyData.userPassword;
+      copyData.timestamp = serverTimestamp();
+      await setDoc(doc(db, 'users', user.uid), copyData);
+      navigate('/');
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
   };
   return (
     <div>
@@ -47,7 +73,7 @@ const SignUp = () => {
         />
         <MdVisibility onClick={showPasswordHandler} />
         <Link to='/forgetpassword'>Forget password?</Link>
-        <button>
+        <button onClick={submitHandler}>
           Sign Up <AiOutlineArrowRight />
         </button>
       </form>
