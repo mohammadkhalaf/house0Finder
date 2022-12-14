@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   collection,
   query,
@@ -12,17 +13,17 @@ import ListingItem from '../components/ListingItem';
 import { db } from '../firebase';
 import { toast } from 'react-toastify';
 
-const Offers = () => {
+const Category = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const params = useParams();
   useEffect(() => {
     const fetchListings = async () => {
       setLoading(true);
       try {
         const q = query(
           collection(db, 'listings'),
-          where('discount', '==', true),
+          where('type', '==', params.type),
           orderBy('timestamp', 'desc'),
           limit(10),
         );
@@ -34,18 +35,19 @@ const Offers = () => {
         setListings(listings);
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        toast.error('Could not fetch data');
       }
     };
 
     fetchListings();
   }, []);
 
-  // if (loading) {
-  //   return <h5>...loading</h5>;
-  // }
+  if (loading) {
+    return <h5>...loading</h5>;
+  }
   return (
     <>
+      <h1>places for {params.type}</h1>
       <div>
         {listings && listings.length > 0 ? (
           <div>
@@ -63,4 +65,4 @@ const Offers = () => {
   );
 };
 
-export default Offers;
+export default Category;
