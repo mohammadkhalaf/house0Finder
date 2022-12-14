@@ -11,6 +11,7 @@ import Category from './pages/Category';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import CreateItem from './pages/CreateItem';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/offers' element={<Offers />} />
+          <Route path='/create' element={<CreateItem />} />
           <Route path='/category/:type' element={<Category />} />
           <Route path='/forgetpassword' element={<ForgetPassword />} />
         </Routes>

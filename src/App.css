@@ -53,3 +53,10 @@ code {
 ul {
   list-style: none;
 }
+
+.formButtonActive {
+  background-color: green;
+}
+.formButton {
+  background-color: gray;
+}

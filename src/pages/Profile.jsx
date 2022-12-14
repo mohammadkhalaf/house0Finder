@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { signOut, updateProfile, updateEmail } from 'firebase/auth';
 import { auth, db } from '../firebase';
 import { updateDoc, doc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
@@ -69,6 +69,10 @@ const Profile = () => {
             {changeDetails ? 'Done' : 'Update'}
           </button>
         </form>
+
+        <div>
+          <Link to='/create'> Create Item</Link>
+        </div>
       </section>
     </>
   );
