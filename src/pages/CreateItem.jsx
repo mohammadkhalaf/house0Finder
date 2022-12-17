@@ -166,7 +166,6 @@ function CreateListing() {
       timestamp: serverTimestamp(),
     };
     delete copyData.images;
-    delete copyData.address;
     const docRef = await addDoc(collection(db, 'listings'), copyData);
     toast.success('added!');
     navigate(`/category/${copyData.type}/${docRef.id}`);

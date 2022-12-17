@@ -6,7 +6,7 @@ const ListingItem = (listing) => {
   return (
     <>
       <li>
-        <Link to={`category/${listing.type}/${listing.id}`}>
+        <Link to={`/category/${listing.type}/${listing.id}`}>
           <img src={listing.imgUrls[0]} alt={listing.name} />
           <div>
             <p>{listing.location}</p>
