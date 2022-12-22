@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 const Category = () => {
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [lastItem,setLastItem]=useState(null)
   const params = useParams();
   useEffect(() => {
     const fetchListings = async () => {
@@ -28,6 +29,10 @@ const Category = () => {
           limit(10),
         );
         const querySnapshot = await getDocs(q);
+        const lastVisible= querySnapshot.docs[querySnapshot.docs.length-1]
+        setLastItem(lastVisible)
+
+
         let listings = [];
         querySnapshot.forEach((doc) => {
           return listings.push({ id: doc.id, ...doc.data() });

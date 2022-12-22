@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBed, FaBath } from 'react-icons/fa';
 
-const ListingItem = (listing) => {
+const ListingItem = ( {listing,  onDelete }) => {
+  const removeHandler = (x) => {
+    onDelete(x);
+  };
   return (
     <>
       <li>
@@ -28,6 +31,9 @@ const ListingItem = (listing) => {
             </div>
           </div>
         </Link>
+        <button onClick={() => onDelete(listing.id)}>
+          {listing.id}
+        </button>
       </li>
     </>
   );

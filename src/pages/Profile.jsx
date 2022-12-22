@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react';
 import { signOut, updateProfile, updateEmail } from 'firebase/auth';
 import { auth, db } from '../firebase';
-import { updateDoc, doc } from 'firebase/firestore';
+import {
+  updateDoc,
+  doc,
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  deleteDoc,
+} from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ListingItem from '../components/ListingItem';
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -11,6 +21,7 @@ const Profile = () => {
     email: auth?.currentUser?.email || '',
   });
   const { name, email } = user;
+  const [listings, setListings] = useState([]);
   const [changeDetails, setChangeDetails] = useState(false);
   const navigate = useNavigate();
   const logoutHandler = () => {
@@ -45,6 +56,35 @@ const Profile = () => {
       }
     }
   };
+  useEffect(() => {
+    const fetchUserItems = async () => {
+      const itemsRef = collection(db, 'listings');
+      const q = query(
+        itemsRef,
+        where('userRef', '==', auth.currentUser.uid),
+        orderBy('timestamp', 'desc'),
+      );
+      const querySnap = await getDocs(q);
+      let listings = [];
+      querySnap.forEach((doc) => {
+        return listings.push({ id: doc.id, ...doc.data() });
+      });
+      setListings(listings);
+    };
+    fetchUserItems();
+  }, [auth.currentUser.uid]);
+ 
+   const onDelete = async (listingId) => {
+    console.log(listingId);
+     if (window.confirm('Are you sure you want to delete?')) {
+       await deleteDoc(doc(db, 'listings', listingId));
+       const updatedListings = listings.filter(
+         (listing) => listing.id !== listingId,
+       );
+       setListings(updatedListings);
+       toast.success('Successfully deleted listing');
+     }
+   };
   return (
     <>
       <div>my profile</div>
@@ -72,6 +112,20 @@ const Profile = () => {
 
         <div>
           <Link to='/create'> Create Item</Link>
+        </div>
+        <div>
+          <ul>
+            {listings &&
+              listings.map((item) => {
+            return (
+              <ListingItem
+                key={item.id}
+                listing={item}
+                onDelete={() => onDelete(item.id)}
+              />
+            );
+              })}
+          </ul>
         </div>
       </section>
     </>
