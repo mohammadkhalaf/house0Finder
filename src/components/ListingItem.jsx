@@ -3,14 +3,12 @@ import { Link } from 'react-router-dom';
 import { FaBed, FaBath } from 'react-icons/fa';
 
 const ListingItem = ( {listing,  onDelete }) => {
-  const removeHandler = (x) => {
-    onDelete(x);
-  };
+
   return (
     <>
-      <li>
+      <li style={{width:'300px', height:'300px'}}>
         <Link to={`/category/${listing.type}/${listing.id}`}>
-          <img src={listing.imgUrls[0]} alt={listing.name} />
+          <img src={listing.imgUrls[0]} alt={listing.name} style={{height:'100%', width:'100%', objectFit:'cover'}} />
           <div>
             <p>{listing.location}</p>
             <p>
