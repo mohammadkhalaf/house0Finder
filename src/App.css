@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f2f4f8;
 }
 
 code {
@@ -27,19 +28,31 @@ code {
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.pageContainer,
+.offers,
+.profile,
+.listingDetails,
+.category,
+.explore {
+  margin: 1rem;
+}
+@media (min-width: 1024px) {
+  .pageContainer,
+  .offers,
+  .profile,
+  .listingDetails,
+  .category,
+  .explore {
+    margin: 3rem;
+  }
+}
+.pageContainer {
+  margin-bottom: 10rem;
 }
 
-.App-link {
-  color: #61dafb;
+.pageHeader {
+  font-size: 2rem;
+  font-weight: 800;
 }
 
 @keyframes App-logo-spin {
@@ -52,11 +65,4 @@ code {
 }
 ul {
   list-style: none;
-}
-
-.formButtonActive {
-  background-color: green;
-}
-.formButton {
-  background-color: gray;
 }

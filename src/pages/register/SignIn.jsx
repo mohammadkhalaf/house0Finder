@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { MdVisibility } from 'react-icons/md';
+import classes from './register.module.css';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,31 +41,44 @@ const SignIn = () => {
     }
   };
   return (
-    <div>
-      <h2>welcome back</h2>
+    <div className='pageContainer'>
+      <h2 className='pageHeader'>welcome back</h2>
       <form>
         <input
+          className={classes.emailInput}
           type='text'
           placeholder='Your email'
           id='userEmail'
           value={userEmail}
           onChange={onchangeHandler}
         />
-        <input
-          type={showPassword ? 'text' : 'password'}
-          id='userPassword'
-          value={userPassword}
-          placeholder='Your password'
-          onChange={onchangeHandler}
-        />
-        <MdVisibility onClick={showPasswordHandler} />
-        <Link to='/forgetpassword'>Forget password?</Link>
-        <button onClick={submitHandler}>
-          Sign in <AiOutlineArrowRight />
-        </button>
+        <div className={classes.passwordInputDiv}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            className={classes.passwordInput}
+            id='userPassword'
+            value={userPassword}
+            placeholder='Your password'
+            onChange={onchangeHandler}
+          />
+          <MdVisibility
+            onClick={showPasswordHandler}
+            className={classes.showPassword}
+          />
+        </div>
+
+        <Link to='/forgetpassword' className={classes.forgotPasswordLink}>
+          Forget password?
+        </Link>
+        <div className={classes.signInBar}>
+          <button className={classes.submitButton}>Sign in</button>
+        </div>
       </form>
       <p>Do not have an account?</p>
-      <Link to='/signup'> Sin up </Link>
+      <Link className={classes.registerLink} to='/signup'>
+        {' '}
+        Sin up{' '}
+      </Link>
     </div>
   );
 };

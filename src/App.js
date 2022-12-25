@@ -1,19 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Explore from './pages/Explore';
+import Navbar from './components/navbar/Navbar';
+import Explore from './pages/explore/Explore';
 import Profile from './pages/Profile';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import ForgetPassword from './pages/ForgetPassword';
+import SignIn from './pages/register/SignIn';
+import SignUp from './pages/register/SignUp';
+import ForgetPassword from './pages/register/ForgetPassword';
 import Offers from './pages/Offers';
 import PrivateRoute from './components/PrivateRoute';
 import Category from './pages/Category';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
 import CreateItem from './pages/CreateItem';
 import ListingPage from './pages/ListingPage';
 import Contact from './pages/Contact';
+import './App.css';
 
 function App() {
   return (

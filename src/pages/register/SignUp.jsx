@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, db } from '../firebase';
+import { auth, db } from '../../firebase';
 import { toast } from 'react-toastify';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { MdVisibility } from 'react-icons/md';
+import classes from './register.module.css';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,38 +48,55 @@ const SignUp = () => {
     }
   };
   return (
-    <div>
-      <h2>welcome back</h2>
+    <div className='pageContainer'>
+      <h2 className='pageHeader'>welcome back</h2>
       <form>
-        <input
-          type='text'
-          placeholder='Your Name'
-          id='userName'
-          value={userName}
-          onChange={onchangeHandler}
-        />
-        <input
-          type='text'
-          placeholder='Your email'
-          id='userEmail'
-          value={userEmail}
-          onChange={onchangeHandler}
-        />
-        <input
-          type={showPassword ? 'text' : 'password'}
-          id='userPassword'
-          value={userPassword}
-          placeholder='Your password'
-          onChange={onchangeHandler}
-        />
-        <MdVisibility onClick={showPasswordHandler} />
-        <Link to='/forgetpassword'>Forget password?</Link>
-        <button onClick={submitHandler}>
-          Sign Up <AiOutlineArrowRight />
-        </button>
+        <div>
+          <input
+            className={classes.nameInput}
+            type='text'
+            placeholder='Your Name'
+            id='userName'
+            value={userName}
+            onChange={onchangeHandler}
+          />
+        </div>
+        <div>
+          <input
+            className={classes.emailInput}
+            type='text'
+            placeholder='Your email'
+            id='userEmail'
+            value={userEmail}
+            onChange={onchangeHandler}
+          />
+        </div>
+        <div className={classes.passwordInputDiv}>
+          <input
+            className={classes.passwordInput}
+            type={showPassword ? 'text' : 'password'}
+            id='userPassword'
+            value={userPassword}
+            placeholder='Your password'
+            onChange={onchangeHandler}
+          />
+          <MdVisibility
+            onClick={showPasswordHandler}
+            className={classes.showPassword}
+          />
+        </div>
+        <Link to='/forgetpassword' className={classes.forgotPasswordLink}>
+          Forget password?
+        </Link>
+        <div className={classes.signInBar}>
+          <button className={classes.submitButton}>Sign Up</button>
+        </div>
       </form>
       <p>You have an account?</p>
-      <Link to='/signin'> Sign in </Link>
+      <Link className={classes.registerLink} to='/signin'>
+        {' '}
+        Sign in{' '}
+      </Link>
     </div>
   );
 };

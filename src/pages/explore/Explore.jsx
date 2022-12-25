@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import sellImage from '../assets/sell.jpeg';
-import rentImage from '../assets/rent.jpeg';
+import sellImage from '../../assets/sell.jpeg';
+import rentImage from '../../assets/rent.jpeg';
 const Explore = () => {
   return (
     <main>
