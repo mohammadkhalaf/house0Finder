@@ -4,7 +4,9 @@ import { getDoc, doc } from 'firebase/firestore';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { db, auth } from '../../firebase';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-
+import { AiOutlineShareAlt } from 'react-icons/ai';
+import classes from './listing.module.css';
+import Loader from '../../components/loader/Loader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -35,20 +37,19 @@ const ListingItem = () => {
   }, [params.id]);
 
   if (loading) {
-    return <h1>loading...</h1>;
+    return <Loader />;
   }
   return (
     <>
       {listing && (
-        <main>
+        <main className='category'>
           <div>
             <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               slidesPerView={1}
               pagination={{ clickable: true }}
               style={{
-                border: '1px solid green',
-                width: '500px',
+                maxWidth: '500px',
                 height: '500px',
               }}
             >
@@ -56,12 +57,12 @@ const ListingItem = () => {
                 return (
                   <SwiperSlide key={index}>
                     <div
+                      className={classes.swiperSlideDiv}
                       style={{
                         position: 'relative',
                         background: `url(${listing.imgUrls[index]}) center no-repeat`,
-                        height: '300px',
-                        width: '300px',
-                        border: '1px solid red',
+                        height: '100%',
+                        width: '100%',
                         backgroundSize: 'cover',
                       }}
                     ></div>
@@ -70,43 +71,50 @@ const ListingItem = () => {
               })}
             </Swiper>
           </div>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              setCopiedLink(true);
-              setTimeout(() => {
-                setCopiedLink(false);
-              }, 2000);
-            }}
-          >
-            Copy the link
-          </button>
-          {copiedLink && <p>Link copied</p>}
+
+          <div className={classes.shareIconDiv}>
+            <AiOutlineShareAlt
+              fill='#013580'
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                setCopiedLink(true);
+                setTimeout(() => {
+                  setCopiedLink(false);
+                }, 2000);
+              }}
+            />
+          </div>
+          {copiedLink && <p className={classes.linkCopied}>Link copied</p>}
 
           <div>
-            <p>{listing.name}</p>
-            <p>
-              {listing.discount
+            <p className={classes.categoryListingName}>
+              {listing.name} - $
+              {listing.offer
                 ? listing.discountedPrice
-                : listing.regularPrice}
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                : listing.regularPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
             </p>
-            <p>{listing.address}</p>
-            <p>for {listing.type}</p>
-            {listing.discount && (
-              <p>You save {listing.regularPrice - listing.discountedPrice}</p>
-            )}
+            <p className={classes.categoryListingLocation}>
+              Address: {listing.address}
+            </p>
+            <span className={classes.listingType}>
+              For {listing.type === 'rent' ? 'Rent' : 'Sale'}
+            </span>
+
             <p>{listing.bedrooms} bedrooms</p>
             <p>
               {listing.bathrooms}
-              {listing.bathrooms > 1 ? 'bathrooms' : 'bathroom'}
+              {listing.bathrooms > 1 ? ' bathrooms' : ' bathroom'}
             </p>
-            <p>{listing.furnished && 'furnished'}</p>
+            <p>{listing.furnished ? 'Furnished' : 'Not furnished'}</p>
             <div>
               <MapContainer
                 style={{
                   height: '300px',
                   width: '300px',
-                  border: '1px solid red',
                 }}
                 center={[listing.geolocation.lat, listing.geolocation.long]}
                 zoom={13}
@@ -128,6 +136,7 @@ const ListingItem = () => {
             {auth.currentUser?.uid !== listing.userRef && (
               <Link
                 to={`/contact/${listing.userRef}?listingName=${listing.name}`}
+                className={classes.primaryButton}
               >
                 Contact
               </Link>

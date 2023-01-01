@@ -22,9 +22,9 @@ const Offers = () => {
       try {
         const q = query(
           collection(db, 'listings'),
-          where('discount', '==', true),
+          where('offer', '==', true),
           orderBy('timestamp', 'desc'),
-          limit(10),
+          limit(2),
         );
         const querySnapshot = await getDocs(q);
         let listings = [];
@@ -55,7 +55,7 @@ const Offers = () => {
             <div>
               <ul>
                 {listings.map((item) => {
-                  return <ListingItem key={item.id} {...item} />;
+                  return <ListingItem key={item.id} listing={item} />;
                 })}
               </ul>
             </div>
