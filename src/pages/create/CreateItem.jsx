@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import {
   getStorage,
   ref,
@@ -11,6 +11,7 @@ import {
   getDownloadURL,
 } from 'firebase/storage';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import classes from './create.module.css';
 function CreateListing() {
   // eslint-disable-next-line
   const [geolocationEnabled, setGeolocationEnabled] = useState(true);
@@ -94,8 +95,10 @@ function CreateListing() {
     }
   };
   const submitHanlder = async (e) => {
+    console.log(discountedPrice);
+    console.log(regularPrice);
     e.preventDefault();
-    if (discountedPrice > regularPrice) {
+    if (+discountedPrice > +regularPrice) {
       toast.error('Discounted price needs to be less than regular price');
       return;
     }
@@ -179,11 +182,15 @@ function CreateListing() {
 
       <main>
         <form onSubmit={submitHanlder}>
-          <label className='formLabel'>Sell / Rent</label>
-          <div className='formButtons'>
+          <label className={classes.formLabel}>Sell / Rent</label>
+          <div className={classes.formButtons}>
             <button
               type='button'
-              className={type === 'sale' ? 'formButtonActive' : 'formButton'}
+              className={
+                type === 'sale'
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
+              }
               id='type'
               value='sale'
               onClick={onMutate}
@@ -192,7 +199,11 @@ function CreateListing() {
             </button>
             <button
               type='button'
-              className={type === 'rent' ? 'formButtonActive' : 'formButton'}
+              className={
+                type === 'rent'
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
+              }
               id='type'
               value='rent'
               onClick={onMutate}
@@ -201,9 +212,9 @@ function CreateListing() {
             </button>
           </div>
 
-          <label className='formLabel'>Name</label>
+          <label className={classes.formLabel}>Name</label>
           <input
-            className='formInputName'
+            className={classes.formInputName}
             type='text'
             id='name'
             value={name}
@@ -213,11 +224,11 @@ function CreateListing() {
             required
           />
 
-          <div className='formRooms flex'>
+          <div className={classes.flex}>
             <div>
-              <label className='formLabel'>Bedrooms</label>
+              <label className={classes.formLabel}>Bedrooms</label>
               <input
-                className='formInputSmall'
+                className={classes.formInputSmall}
                 type='number'
                 id='bedrooms'
                 value={bedrooms}
@@ -228,9 +239,9 @@ function CreateListing() {
               />
             </div>
             <div>
-              <label className='formLabel'>Bathrooms</label>
+              <label className={classes.formLabel}>Bathrooms</label>
               <input
-                className='formInputSmall'
+                className={classes.formInputSmall}
                 type='number'
                 id='bathrooms'
                 value={bathrooms}
@@ -242,10 +253,14 @@ function CreateListing() {
             </div>
           </div>
 
-          <label className='formLabel'>Parking spot</label>
-          <div className='formButtons'>
+          <label className={classes.formLabel}>Parking spot</label>
+          <div className={classes.formButtons}>
             <button
-              className={parking ? 'formButtonActive' : 'formButton'}
+              className={
+                parking
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
+              }
               type='button'
               id='parking'
               value={true}
@@ -257,7 +272,9 @@ function CreateListing() {
             </button>
             <button
               className={
-                !parking && parking !== null ? 'formButtonActive' : 'formButton'
+                !parking && parking !== null
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
               }
               type='button'
               id='parking'
@@ -268,10 +285,14 @@ function CreateListing() {
             </button>
           </div>
 
-          <label className='formLabel'>Furnished</label>
-          <div className='formButtons'>
+          <label className={classes.formLabel}>Furnished</label>
+          <div className={classes.formButtons}>
             <button
-              className={furnished ? 'formButtonActive' : 'formButton'}
+              className={
+                furnished
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
+              }
               type='button'
               id='furnished'
               value={true}
@@ -282,8 +303,8 @@ function CreateListing() {
             <button
               className={
                 !furnished && furnished !== null
-                  ? 'formButtonActive'
-                  : 'formButton'
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
               }
               type='button'
               id='furnished'
@@ -294,7 +315,7 @@ function CreateListing() {
             </button>
           </div>
 
-          <label className='formLabel'>Address</label>
+          <label className={classes.formLabel}>Address</label>
           <textarea
             className='formInputAddress'
             type='text'
@@ -305,11 +326,11 @@ function CreateListing() {
           />
 
           {!geolocationEnabled && (
-            <div className='formLatLng flex'>
+            <div className={classes.flex}>
               <div>
-                <label className='formLabel'>Latitude</label>
+                <label className={classes.formLabel}>Latitude</label>
                 <input
-                  className='formInputSmall'
+                  className={classes.formInputSmall}
                   type='number'
                   id='latitude'
                   value={latitude}
@@ -318,9 +339,9 @@ function CreateListing() {
                 />
               </div>
               <div>
-                <label className='formLabel'>Longitude</label>
+                <label className={classes.formInputSmall}>Longitude</label>
                 <input
-                  className='formInputSmall'
+                  className={classes.formInputSmall}
                   type='number'
                   id='longitude'
                   value={longitude}
@@ -331,10 +352,12 @@ function CreateListing() {
             </div>
           )}
 
-          <label className='formLabel'>Offer</label>
-          <div className='formButtons'>
+          <label className={classes.formLabel}>Offer</label>
+          <div className={classes.formButtons}>
             <button
-              className={offer ? 'formButtonActive' : 'formButton'}
+              className={
+                offer ? `${classes.formButtonActive}` : `${classes.formButton}`
+              }
               type='button'
               id='offer'
               value={true}
@@ -344,7 +367,9 @@ function CreateListing() {
             </button>
             <button
               className={
-                !offer && offer !== null ? 'formButtonActive' : 'formButton'
+                !offer && offer !== null
+                  ? `${classes.formButtonActive}`
+                  : `${classes.formButton}`
               }
               type='button'
               id='offer'
@@ -355,10 +380,10 @@ function CreateListing() {
             </button>
           </div>
 
-          <label className='formLabel'>Regular Price</label>
-          <div className='formPriceDiv'>
+          <label className={classes.formLabel}>Regular Price</label>
+          <div className={classes.formPriceDiv}>
             <input
-              className='formInputSmall'
+              className={classes.formInputSmall}
               type='number'
               id='regularPrice'
               value={regularPrice}
@@ -372,9 +397,9 @@ function CreateListing() {
 
           {offer && (
             <>
-              <label className='formLabel'>Discounted Price</label>
+              <label className={classes.formLabel}>Discounted Price</label>
               <input
-                className='formInputSmall'
+                className={classes.formInputSmall}
                 type='number'
                 id='discountedPrice'
                 value={discountedPrice}
@@ -386,12 +411,12 @@ function CreateListing() {
             </>
           )}
 
-          <label className='formLabel'>Images</label>
-          <p className='imagesInfo'>
+          <label className={classes.formLabel}>Images</label>
+          <p className={classes.imagesInfo}>
             The first image will be the cover (max 6).
           </p>
           <input
-            className='formInputFile'
+            className={classes.formInputFile}
             type='file'
             id='images'
             onChange={onMutate}
@@ -400,7 +425,10 @@ function CreateListing() {
             multiple
             required
           />
-          <button type='submit' className='primaryButton createListingButton'>
+          <button
+            type='submit'
+            className={`${classes.createListingButton} ${classes.primaryButton}`}
+          >
             Create Listing
           </button>
         </form>

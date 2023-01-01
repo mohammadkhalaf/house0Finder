@@ -28,28 +28,30 @@ const SignUp = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        userEmail,
-        userPassword,
-      );
-      const user = userCred.user;
-      updateProfile(auth.currentUser, {
-        displayName: userName,
-      });
-      const copyData = { ...signupForm };
-      delete copyData.userPassword;
-      copyData.timestamp = serverTimestamp();
-      await setDoc(doc(db, 'users', user.uid), copyData);
-      navigate('/');
-    } catch (error) {
-      toast.error('Something went wrong');
+    if (userEmail && userPassword && userName) {
+      try {
+        const userCred = await createUserWithEmailAndPassword(
+          auth,
+          userEmail,
+          userPassword,
+        );
+        const user = userCred.user;
+        updateProfile(auth.currentUser, {
+          displayName: userName,
+        });
+        const copyData = { ...signupForm };
+        delete copyData.userPassword;
+        copyData.timestamp = serverTimestamp();
+        await setDoc(doc(db, 'users', user.uid), copyData);
+        navigate('/');
+      } catch (error) {
+        toast.error('Something went wrong');
+      }
     }
   };
   return (
     <div className='pageContainer'>
-      <h2 className='pageHeader'>welcome back</h2>
+      <h2 className='pageHeader'>Sign up</h2>
       <form>
         <div>
           <input
@@ -89,7 +91,9 @@ const SignUp = () => {
           Forget password?
         </Link>
         <div className={classes.signInBar}>
-          <button className={classes.submitButton}>Sign Up</button>
+          <button className={classes.submitButton} onClick={submitHandler}>
+            Sign Up
+          </button>
         </div>
       </form>
       <p>You have an account?</p>

@@ -8,9 +8,9 @@ import {
   limit,
   startAfter,
 } from 'firebase/firestore';
-import ListingItem from '../components/ListingItem';
+import ListingItem from '../components/listingitem/ListingItem';
+import Loader from '../components/loader/Loader';
 import { db } from '../firebase';
-import { toast } from 'react-toastify';
 
 const Offers = () => {
   const [listings, setListings] = useState(null);
@@ -41,24 +41,29 @@ const Offers = () => {
     fetchListings();
   }, []);
 
-  // if (loading) {
-  //   return <h5>...loading</h5>;
-  // }
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <>
-      <div>
-        {listings && listings.length > 0 ? (
-          <div>
-            <ul>
-              {listings.map((item) => {
-                return <ListingItem key={item.id} {...item} />;
-              })}
-            </ul>
-          </div>
-        ) : (
-          <div>No items</div>
-        )}
-      </div>
+      <main className='category'>
+        <header>
+          <h1 className='pageHeader'>Offers</h1>
+        </header>
+        <div>
+          {listings && listings.length > 0 ? (
+            <div>
+              <ul>
+                {listings.map((item) => {
+                  return <ListingItem key={item.id} {...item} />;
+                })}
+              </ul>
+            </div>
+          ) : (
+            <div>There are no offers right now !</div>
+          )}
+        </div>
+      </main>
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getDoc, doc } from 'firebase/firestore';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { db, auth } from '../firebase';
+import { db, auth } from '../../firebase';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';

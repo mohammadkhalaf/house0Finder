@@ -3,7 +3,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import { AiOutlineArrowRight } from 'react-icons/ai';
 import { MdVisibility } from 'react-icons/md';
 import classes from './register.module.css';
 
@@ -27,17 +26,19 @@ const SignIn = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const userCred = await signInWithEmailAndPassword(
-        auth,
-        userEmail,
-        userPassword,
-      );
-      if (userCred.user) {
-        navigate('/');
+    if (userEmail && userPassword) {
+      try {
+        const userCred = await signInWithEmailAndPassword(
+          auth,
+          userEmail,
+          userPassword,
+        );
+        if (userCred.user) {
+          navigate('/');
+        }
+      } catch (error) {
+        toast.error('Bad user credentials');
       }
-    } catch (error) {
-      toast.error('Bad user credentials');
     }
   };
   return (
@@ -71,13 +72,14 @@ const SignIn = () => {
           Forget password?
         </Link>
         <div className={classes.signInBar}>
-          <button className={classes.submitButton}>Sign in</button>
+          <button className={classes.submitButton} onClick={submitHandler}>
+            Sign in
+          </button>
         </div>
       </form>
       <p>Do not have an account?</p>
       <Link className={classes.registerLink} to='/signup'>
-        {' '}
-        Sin up{' '}
+        Sin up
       </Link>
     </div>
   );
