@@ -27,12 +27,12 @@ const ListingItem = ({ listing, onDelete }) => {
               $ {listing.type === 'rent' && '/ month'}
             </p>
             <div className={classes.categoryListingInfoDiv}>
-              <span>
-                <FaBed />
+              <span className={classes.iconDiv}>
+                <FaBed className={classes.icon} />
                 {listing.bedrooms > 1 ? 'bedrooms' : 'bedroom'}
               </span>
               <span>
-                <FaBath />
+                <FaBath className={classes.icon} />
                 {listing.bathrooms > 1 ? 'bathrooms' : 'bathroom'}
               </span>
             </div>

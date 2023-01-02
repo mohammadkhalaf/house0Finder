@@ -1,0 +1,39 @@
+.contactLandlord {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.landlordName {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.messageForm {
+  margin-top: 0.5rem;
+}
+
+.messageDiv {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4rem;
+}
+
+.messageLabel {
+  margin-bottom: 0.5rem;
+}
+.primaryButton {
+  cursor: pointer;
+  background: #00cc66;
+  border-radius: 1rem;
+  padding: 0.85rem 2rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.25rem;
+  width: 80%;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

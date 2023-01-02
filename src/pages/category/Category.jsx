@@ -90,7 +90,7 @@ const Category = () => {
       setListings((prevState) => [...prevState, ...listings]);
       setLoading(false);
     } catch (error) {
-      toast.error('Could not fetch listings');
+      toast.error('No more items to fetch');
     }
   };
   if (loading) {
@@ -116,7 +116,9 @@ const Category = () => {
             <div>No items for {params.type}</div>
           )}
         </div>
-        <button onClick={fetchMoreListings}>load more</button>
+        <button className={classes.btn} onClick={fetchMoreListings}>
+          load more
+        </button>
       </main>
     </>
   );
